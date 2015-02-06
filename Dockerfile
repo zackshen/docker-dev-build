@@ -30,7 +30,7 @@ RUN apt-get install -y tmux
 # Vim
 RUN mkdir -p /opt/downloads && cd /opt/downloads
 RUN curl -L https://github.com/zackshen/vim/archive/master.zip > /opt/downloads/master.zip
-RUN unzip master.zip && mv /opt/downloads/vim-master/vim-7-4-589.zip /opt/downloads && unzip vim-7-4-589.zip && cd vim-7-4-589
+RUN unzip /opt/downloads/master.zip && mv /opt/downloads/vim-master/vim-7-4-589.zip /opt/downloads && unzip /opt/downloads/vim-7-4-589.zip && cd /opt/downloads/vim-7-4-589
 RUN ./configure --with-features=huge --enable-rubyinterp --enable-pythoninterp --enable-perlinterp --enable-cscope --enable-luainterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/
 RUN make & make install
 RUN cp -r /opt/downloads/vim-master ~/.vim && sh ~/.vim/install.sh
