@@ -1,4 +1,4 @@
-FROM docker.cn/docker/ubuntu:14.04.1
+FROM ubuntu:14.04.1
 MAINTAINER zack.shen@netis.com.cn
 
 RUN echo "deb http://mirrors.163.com/ubuntu/ trusty main restricted universe " > /etc/apt/sources.list
@@ -30,10 +30,16 @@ RUN apt-get install -y tmux
 # Vim
 RUN mkdir -p /opt/downloads && cd /opt/downloads
 RUN curl -L https://github.com/zackshen/vim/archive/master.zip > /opt/downloads/master.zip
-RUN unzip /opt/downloads/master.zip && mv /opt/downloads/vim-master/vim-7-4-589.zip /opt/downloads && unzip /opt/downloads/vim-7-4-589.zip && cd /opt/downloads/vim-7-4-589
-RUN ./configure --with-features=huge --enable-rubyinterp --enable-pythoninterp --enable-perlinterp --enable-cscope --enable-luainterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/
-RUN make & make install
-RUN cp -r /opt/downloads/vim-master ~/.vim && sh ~/.vim/install.sh
+RUN cd /opt/downloads && unzip /opt/downloads/master.zip 
+RUN ls /opt/downloads/ 
+RUN mv /opt/downloads/vim-master/vim-7-4-589.zip /opt/downloads 
+RUN cd /opt/downloads && unzip /opt/downloads/vim-7-4-589.zip 
+RUN ls /opt/downloads/
+RUN cd /opt/downloads/vim-7-4-589 && chmod 777 -R .
+RUN cd /opt/downloads/vim-7-4-589 && ./configure --with-features=huge --enable-rubyinterp --enable-pythoninterp --enable-perlinterp --enable-cscope --enable-luainterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/
+RUN cd /opt/downloads/vim-7-4-589 && make && make install
+RUN cp -r /opt/downloads/vim-master /usr/local/dotvim 
+RUN cd /usr/local/dotvim && sh /usr/local/dotvim/install.sh
 
 # Python Env Setup
 ADD ./requirements /opt/
