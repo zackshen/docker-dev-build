@@ -13,10 +13,10 @@ RUN echo "deb-src http://mirrors.163.com/ubuntu/ trusty-proposed main restricted
 RUN echo "deb-src http://mirrors.163.com/ubuntu/ trusty-backports main restricted universe multiverse" >> /etc/apt/sources.list
 
 RUN apt-get update
-RUN apt-get install -y build-essential autotools-dev automake man pkg-config libevent-dev libncurses-dev libssl-dev libcurl4-openssl-dev curl
+RUN apt-get install -y build-essential autotools-dev automake man pkg-config libevent-dev libncurses-dev libssl-dev libcurl4-openssl-dev curl wget
 RUN apt-get install -y libclang-dev
 RUN apt-get install -y python-dev libsnappy-dev libzmq-dev
-RUN apt-get install -y silversearcher-ag
+RUN apt-get install -y silversearcher-ag unzip
 RUN apt-get install -y python-pip
 RUN apt-get install -y git-core
 RUN apt-get install -y subversion
@@ -26,6 +26,13 @@ RUN apt-get install -y memcached
 RUN apt-get install -y openssh-server
 RUN apt-get install -y zsh
 RUN apt-get install -y tmux
+
+# Vim
+RUN mkdir -p /opt/downloads && cd /opt/downloads
+RUN wget -c https://github.com/zackshen/docker-dev-build/blob/master/vim-7-4-589.zip && unzip vim-7-4-589.zip && cd vim-7-4-589.zip
+RUN ./configure --with-features=huge --enable-rubyinterp --enable-pythoninterp --enable-perlinterp --enable-cscope --enable-luainterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/
+RUN make & make install
+RUN git clone https://github.com/zackshen/vim ~/.vim
 
 # Python Env Setup
 ADD ./requirements /opt/
